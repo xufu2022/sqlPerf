@@ -1,0 +1,1 @@
+DBCC SHOW_STATISTICS(Orders, idx_Orders_CountryStatus)
