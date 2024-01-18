@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="PachadataTrainingDataSet" targetNamespace="http://tempuri.org/PachadataTrainingDataSet.xsd" xmlns:mstns="http://tempuri.org/PachadataTrainingDataSet.xsd" xmlns="http://tempuri.org/PachadataTrainingDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="PachadataTrainingConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="PachadataTrainingConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.ContactManager.Properties.Settings.GlobalReference.Default.PachadataTrainingConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="EnrollmentTableAdapter" GeneratorDataComponentClassName="EnrollmentTableAdapter" Name="Enrollment" UserDataComponentName="EnrollmentTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="PachadataTrainingConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT
+	e.EnrollmentId, 
+	e.Discount, 
+	e.Reference, 
+	e.[Documents Sent], 
+	c.LastName, 
+	c.FirstName, 
+	s.CourseId, 
+	s.StartDate,
+	cl.Title,
+	c.ContactId,
+	s.SessionId
+FROM Enrollment.Enrollment AS e
+INNER JOIN Contact.Contact AS c ON e.ContactId = c.ContactId
+INNER JOIN Course.Session AS s ON e.SessionId = s.SessionId
+INNER JOIN Course.CourseLanguage AS cl ON s.CourseId = cl.CourseId
+	AND s.LanguageCd = cl.LanguageCd
+</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="EnrollmentId" DataSetColumn="EnrollmentId" />
+              <Mapping SourceColumn="Discount" DataSetColumn="Discount" />
+              <Mapping SourceColumn="Reference" DataSetColumn="Reference" />
+              <Mapping SourceColumn="Documents Sent" DataSetColumn="Documents Sent" />
+              <Mapping SourceColumn="LastName" DataSetColumn="LastName" />
+              <Mapping SourceColumn="FirstName" DataSetColumn="FirstName" />
+              <Mapping SourceColumn="CourseId" DataSetColumn="CourseId" />
+              <Mapping SourceColumn="StartDate" DataSetColumn="StartDate" />
+              <Mapping SourceColumn="Title" DataSetColumn="Title" />
+              <Mapping SourceColumn="ContactId" DataSetColumn="ContactId" />
+              <Mapping SourceColumn="SessionId" DataSetColumn="SessionId" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="PachadataTrainingConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="EnrollmentsByContactId" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="EnrollmentsByContactId" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="EnrollmentsByContactId">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT
+	e.EnrollmentId, 
+	e.Discount, 
+	e.Reference, 
+	e.[Documents Sent], 
+	c.LastName, 
+	c.FirstName, 
+	s.CourseId, 
+	s.StartDate,
+	cl.Title,
+	c.ContactId,
+	s.SessionId
+FROM Enrollment.Enrollment AS e
+INNER JOIN Contact.Contact AS c ON e.ContactId = c.ContactId
+INNER JOIN Course.Session AS s ON e.SessionId = s.SessionId
+INNER JOIN Course.CourseLanguage AS cl ON s.CourseId = cl.CourseId
+	AND s.LanguageCd = cl.LanguageCd
+WHERE c.ContactId = @ContactId</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="ContactId" ColumnName="ContactId" DataSourceName="PachaDataTraining.Contact.Contact" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@ContactId" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="ContactId" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="PachadataTrainingDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="PachadataTrainingDataSet" msprop:Generator_UserDSName="PachadataTrainingDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Enrollment" msprop:Generator_TableClassName="EnrollmentDataTable" msprop:Generator_TableVarName="tableEnrollment" msprop:Generator_RowChangedName="EnrollmentRowChanged" msprop:Generator_TablePropName="Enrollment" msprop:Generator_RowDeletingName="EnrollmentRowDeleting" msprop:Generator_RowChangingName="EnrollmentRowChanging" msprop:Generator_RowEvHandlerName="EnrollmentRowChangeEventHandler" msprop:Generator_RowDeletedName="EnrollmentRowDeleted" msprop:Generator_RowClassName="EnrollmentRow" msprop:Generator_UserTableName="Enrollment" msprop:Generator_RowEvArgName="EnrollmentRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="EnrollmentId" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnEnrollmentId" msprop:Generator_ColumnPropNameInRow="EnrollmentId" msprop:Generator_ColumnPropNameInTable="EnrollmentIdColumn" msprop:Generator_UserColumnName="EnrollmentId" type="xs:int" />
+              <xs:element name="Discount" msprop:Generator_ColumnVarNameInTable="columnDiscount" msprop:Generator_ColumnPropNameInRow="Discount" msprop:Generator_ColumnPropNameInTable="DiscountColumn" msprop:Generator_UserColumnName="Discount" type="xs:unsignedByte" />
+              <xs:element name="Reference" msprop:Generator_ColumnVarNameInTable="columnReference" msprop:Generator_ColumnPropNameInRow="Reference" msprop:Generator_ColumnPropNameInTable="ReferenceColumn" msprop:Generator_UserColumnName="Reference" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Documents_x0020_Sent" msprop:Generator_ColumnVarNameInTable="columnDocuments_Sent" msprop:Generator_ColumnPropNameInRow="Documents_Sent" msprop:Generator_ColumnPropNameInTable="Documents_SentColumn" msprop:Generator_UserColumnName="Documents Sent" type="xs:boolean" />
+              <xs:element name="LastName" msprop:Generator_ColumnVarNameInTable="columnLastName" msprop:Generator_ColumnPropNameInRow="LastName" msprop:Generator_ColumnPropNameInTable="LastNameColumn" msprop:Generator_UserColumnName="LastName" type="xs:string" />
+              <xs:element name="FirstName" msprop:Generator_ColumnVarNameInTable="columnFirstName" msprop:Generator_ColumnPropNameInRow="FirstName" msprop:Generator_ColumnPropNameInTable="FirstNameColumn" msprop:Generator_UserColumnName="FirstName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CourseId" msprop:Generator_ColumnVarNameInTable="columnCourseId" msprop:Generator_ColumnPropNameInRow="CourseId" msprop:Generator_ColumnPropNameInTable="CourseIdColumn" msprop:Generator_UserColumnName="CourseId" type="xs:int" />
+              <xs:element name="StartDate" msprop:Generator_ColumnVarNameInTable="columnStartDate" msprop:Generator_ColumnPropNameInRow="StartDate" msprop:Generator_ColumnPropNameInTable="StartDateColumn" msprop:Generator_UserColumnName="StartDate" type="xs:dateTime" />
+              <xs:element name="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" msprop:Generator_UserColumnName="Title">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ContactId" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnContactId" msprop:Generator_ColumnPropNameInRow="ContactId" msprop:Generator_ColumnPropNameInTable="ContactIdColumn" msprop:Generator_UserColumnName="ContactId" type="xs:int" />
+              <xs:element name="SessionId" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnSessionId" msprop:Generator_ColumnPropNameInRow="SessionId" msprop:Generator_ColumnPropNameInTable="SessionIdColumn" msprop:Generator_UserColumnName="SessionId" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Enrollment" />
+      <xs:field xpath="mstns:EnrollmentId" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

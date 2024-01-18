@@ -1,0 +1,20 @@
+/*******************************************************************
+Use these links and scripts at your own risk. 
+Kevin Hill and Pluralsight are not responsible for their contents 
+or any possible negative impact to your systems. Use 
+only on test systems while you learn how they work.
+*******************************************************************/
+
+SELECT 
+	RTRIM(name),
+	groupid,
+	filename,
+	CAST(size/128.0 AS DECIMAL(10,2)),
+	CAST(FILEPROPERTY(name, 'SpaceUsed')/128.0 AS DECIMAL(10,2)),
+	CAST([maxsize]/128.0 AS DECIMAL(10,2)),
+	CAST(size/128.0-(FILEPROPERTY(name, 'SpaceUsed')/128.0) AS DECIMAL(10,2)),
+	CAST((CAST(FILEPROPERTY(name, 'SpaceUsed')/128.0 
+		AS DECIMAL(10,2))/CAST(size/128.0 
+		AS DECIMAL(10,2)))*100 
+		AS DECIMAL(10,2))
+FROM sysfiles

@@ -1,0 +1,31 @@
+/*******************************************************************
+Use these links and scripts at your own risk. 
+Kevin Hill and Pluralsight are not responsible for their contents 
+or any possible negative impact to your systems. Use 
+only on test systems while you learn how they work.
+*******************************************************************/
+Create Table #Errorlog 
+	(Logdate datetime, 
+	 ProcessInfo varchar(50), 
+	 LogText varchar(5000))
+
+--Dump all the things into the table
+insert into #Errorlog
+EXEC sys.xp_readerrorlog 
+	0			-- Current ERRORLOG
+	,1			-- SQL ERRORLOG (not Agent)
+
+--Query just like you would anything else:
+Select * 
+from #Errorlog 
+Where 1=1
+	--and LogText like '(c) Microsoft Corporation%'
+	and (LogText like '%Error%'	or LogText like '%Fail%'or LogText like '%deadlock%'
+	)
+	And Logdate > getdate() -2
+	And LogText Not Like '%CheckDB%'
+	And LogText not like '%35262%'
+	And LogText not like '%35250%'
+
+--Clean up your mess, you weren't raised in a barn!
+Drop Table #Errorlog

@@ -1,0 +1,22 @@
+/*******************************************************************
+Use these links and scripts at your own risk. 
+Kevin Hill and Pluralsight are not responsible for their contents 
+or any possible negative impact to your systems. Use 
+only on test systems while you learn how they work.
+*******************************************************************/
+
+
+-- base query borrowed from Ken Fisher, with permission
+SELECT 
+	Logins.[name], 
+	Roles.[name]
+FROM sys.server_role_members RoleMembers 
+	JOIN sys.server_principals Logins 
+		ON RoleMembers.member_principal_id = Logins.principal_id 
+	JOIN sys.server_principals Roles 
+		ON RoleMembers.role_principal_id = Roles.principal_id 
+WHERE 1=1
+	-- filter for sysadmin, securityadmin, serveradmin
+	-- And role_principal_id in (3,4,5)
+ORDER BY
+	Roles.[Name]

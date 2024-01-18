@@ -1,0 +1,27 @@
+/*******************************************************************
+Use these links and scripts at your own risk. 
+Kevin Hill and Pluralsight are not responsible for their contents 
+or any possible negative impact to your systems. Use 
+only on test systems while you learn how they work.
+*******************************************************************/
+
+Select 
+	j.[name], 
+	jh.step_name, 
+	run_status, 
+	run_date, 
+	run_time, 
+	run_duration, 
+	[server]
+From [msdb].[dbo].[sysjobhistory] jh
+	join [msdb].[dbo].sysjobs j 
+	on jh.job_id = j.job_id
+Where 1=1 
+	and run_status not in (1,4)
+	and run_date > 20171110 -- Change date
+	and [step_name] <> '(Job outcome)'
+	-- and run_time > 60000
+Order by 
+	run_date desc, 
+	run_time desc
+	

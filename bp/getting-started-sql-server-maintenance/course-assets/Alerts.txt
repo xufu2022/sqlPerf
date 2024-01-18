@@ -1,0 +1,19 @@
+/*******************************************************************
+Use these links and scripts at your own risk. 
+Kevin Hill and Pluralsight are not responsible for their contents 
+or any possible negative impact to your systems. Use 
+only on test systems while you learn how they work.
+*******************************************************************/
+
+SELECT
+	[name], 
+	event_source, 
+	last_occurrence_date, 
+	last_occurrence_time, 
+	occurrence_count
+	--, * 
+FROM 
+	msdb..sysalerts
+Where 1=1
+	and last_occurrence_date >= 20181109
+	and severity >= 16

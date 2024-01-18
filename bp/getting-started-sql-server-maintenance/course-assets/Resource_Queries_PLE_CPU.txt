@@ -1,0 +1,59 @@
+/*******************************************************************
+Use these links and scripts at your own risk. 
+Kevin Hill and Pluralsight are not responsible for their contents 
+or any possible negative impact to your systems. Use 
+only on test systems while you learn how they work.
+*******************************************************************/
+
+
+/*
+Page Life Expectancy - how long a data page lives in memory before being
+Flushed back to disk to make room for other pages.
+
+Buffer Cache Hit Ratio - the percentage of data that was in memory when needed
+to satisfy a query.  The closer to 100% the better.  Under 98% indicates memory pressure
+*/
+
+Select * from sys.dm_os_performance_counters
+Where 1=1
+	and	counter_name like 'page life expectancy%' 
+		
+	and counter_name not like '%Buffer Cache Hit Ratio Base%'
+	and object_name like '%Buffer Manager%'
+
+SELECT 
+	a.object_name
+	,a.counter_name
+	--,a.cntr_value
+	,(a.cntr_value * 1.0 / b.cntr_value) * 100.0 as BufferCacheHitRatio
+FROM sys.dm_os_performance_counters  a
+	JOIN  (SELECT cntr_value,OBJECT_NAME 
+			FROM sys.dm_os_performance_counters  
+  			WHERE counter_name Like 'Buffer cache hit ratio base%'
+				AND OBJECT_NAME Like '%Buffer Manager%') b ON  a.OBJECT_NAME = b.OBJECT_NAME
+WHERE 1=1 
+	AND a.counter_name Like 'Buffer cache hit ratio%'
+	AND a.OBJECT_NAME Like '%Buffer Manager%'
+	AND counter_name not like '%Buffer Cache Hit Ratio Base%'
+
+/*
+CPU Counters - Run and log new records to a table periodically
+*/
+
+DECLARE @ts_now BIGINT;
+SELECT @ts_now = ms_ticks FROM sys.dm_os_sys_info;
+
+SELECT CAST(DATEADD(ms, -1 * (@ts_now - [timestamp]), GETDATE()) AS DATETIME) AS Sample_Time,
+    record.value('(Record/SchedulerMonitorEvent/SystemHealth/ProcessUtilization)[1]', 'int') AS SQLServer_CPU_Utilization,
+    (100 - record.value('(Record/SchedulerMonitorEvent/SystemHealth/ProcessUtilization)[1]', 'int')
+         - record.value('(Record/SchedulerMonitorEvent/SystemHealth/SystemIdle)[1]', 'int')) AS Other_Process_CPU_Utilization,
+    (100 - record.value('(Record/SchedulerMonitorEvent/SystemHealth/SystemIdle)[1]', 'int')) AS Total_CPU_Utilization
+FROM sys.dm_os_sys_info inf 
+	CROSS JOIN (
+				SELECT timestamp, CONVERT (xml, record) AS record
+				FROM sys.dm_os_ring_buffers
+				WHERE ring_buffer_type = 'RING_BUFFER_SCHEDULER_MONITOR'
+					AND record LIKE '%<SystemHealth>%') AS t
+ORDER BY 
+	--record.value('(Record/@id)[1]', 'int');
+	CAST(DATEADD(ms, -1 * (@ts_now - [timestamp]), GETDATE()) AS DATETIME) DESC

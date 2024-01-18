@@ -1,0 +1,19 @@
+/*******************************************************************
+Use these links and scripts at your own risk. 
+Kevin Hill and Pluralsight are not responsible for their contents 
+or any possible negative impact to your systems. Use 
+only on test systems while you learn how they work.
+*******************************************************************/
+
+Use msdb; 
+go
+Select  
+	backup_start_date, database_name, type,	backup_size/1024/1024/1024 as [backup size (GB)], 
+	compressed_backup_size/1024/1024/1024 as [Compressed backup size (GB)]
+	,Physical_device_name as [Backup location]	
+from msdb..backupset join msdb..backupmediafamily bmf on backupset.media_set_id = bmf.media_set_id
+where 	1=1
+	--and type = 'D' 	-- valid options: D (Full), I (Differential), L (Transaction Log)
+	and database_name = 'MyDatabase' --<<<<< change this
+order by 	backup_start_date desc
+--exec master.sys.xp_fixeddrives

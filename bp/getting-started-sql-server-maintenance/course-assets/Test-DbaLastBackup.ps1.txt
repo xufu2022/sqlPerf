@@ -1,0 +1,11 @@
+﻿
+#Use these links and scripts at your own risk. 
+#Kevin Hill and Pluralsight are not responsible for their contents 
+#or any possible negative impact to your systems. Use 
+#only on test systems while you learn how they work.
+
+Test-DbaLastBackup -Destination PS1\SQL2019 `
+                   -SqlInstance  PS1\SQL2016, PS1\SQL2017 `
+                   -IgnoreLogBackup `
+                   -ExcludeDatabase master,model,msdb `
+                   -NoDrop
