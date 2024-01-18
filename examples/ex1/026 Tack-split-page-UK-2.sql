@@ -1,0 +1,43 @@
+
+USE [StructuredIndex];
+GO
+drop TABLE dbo.Random
+
+-- Create table :
+
+CREATE TABLE [Random] (
+	[intCol]	INT,
+	[charCol]	VARCHAR (8000));
+
+-- Insert values : 
+INSERT INTO [Random] VALUES (1, REPLICATE ('Row1', 500));
+GO
+INSERT INTO [Random] VALUES (5, REPLICATE ('Row5', 500));
+GO
+INSERT INTO [Random] VALUES (10, REPLICATE ('Row10', 400));
+GO
+INSERT INTO [Random] VALUES (15, REPLICATE ('Row15', 400));
+GO
+INSERT INTO [Random] VALUES (20, REPLICATE ('Row20', 400));
+GO
+INSERT INTO [Random] VALUES (25, REPLICATE ('Row25', 400));
+GO
+INSERT INTO [Random] VALUES (30, REPLICATE ('Row30', 400));
+GO
+INSERT INTO [Random] VALUES (35, REPLICATE ('Row35', 400));
+GO
+CREATE CLUSTERED INDEX [Random_CL] ON [Random] ([intCol]);
+GO
+
+-- And split the pages :
+
+INSERT INTO [Random] VALUES (2, REPLICATE ('Row2', 500));
+INSERT INTO [Random] VALUES (3, REPLICATE ('Row3', 500));
+INSERT INTO [Random] VALUES (4, REPLICATE ('Row4', 500));
+INSERT INTO [Random] VALUES (6, REPLICATE ('Row6', 500));
+INSERT INTO [Random] VALUES (7, REPLICATE ('Row7', 500));
+INSERT INTO [Random] VALUES (8, REPLICATE ('Row8', 500));
+INSERT INTO [Random] VALUES (26, REPLICATE ('Row26', 400));
+INSERT INTO [Random] VALUES (27, REPLICATE ('Row27', 400));
+INSERT INTO [Random] VALUES (28, REPLICATE ('Row28', 400));
+GO
